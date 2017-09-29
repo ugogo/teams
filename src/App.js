@@ -6,6 +6,7 @@ import PlayersNamer from './screens/PlayersNamer';
 
 class App extends Component {
   state = {
+    users: [],
     screenStep: 1,
   }
 
