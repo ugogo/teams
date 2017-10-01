@@ -1,42 +1,92 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Storage from '../helpers/storage';
 
-const StoredSettings = () => {
-  const settings = Storage
-    .keys()
-    .map(setting => ({
-      name: setting,
-      value: Storage.get(setting),
-    }));
-
-  if (!settings) {
-    return (
-      <p>No settings saved</p>
-    );
+class StoredSettings extends Component {
+  static propTypes = {
+    applySetting: PropTypes.func.isRequired,
   }
 
-  return [
-    <h3 key="title">
-      Saved settings
-    </h3>,
+  constructor(props) {
+    super(props);
 
-    <div key="settings">
-      { settings.map(setting => [
-        <p key={setting}>
-          <strong>{ setting.name }</strong>
-          <br />
-        </p>,
+    const settings = Storage
+      .keys()
+      .map(setting => ({
+        name: setting,
+        value: Storage.get(setting),
+      }));
 
-        <pre key="setting-code">
-          <code>
-            { JSON.stringify(setting.value) }
-          </code>
-        </pre>,
+    this.state = { settings };
+  }
 
-        <hr key="separator" />,
-      ]) }
-    </div>,
-  ];
-};
+  applySetting = (setting) => {
+    const { applySetting } = this.props;
+    const { value } = setting;
+
+    applySetting(value);
+  }
+
+  removeSetting = ({ name }) => { // eslint-disable-line
+    const { settings } = this.state;
+    const filteredSettings = settings.filter(setting => setting.name !== name);
+
+    Storage.remove(name);
+
+    this.setState({
+      settings: filteredSettings,
+    });
+  }
+
+  render() {
+    const { settings } = this.state;
+
+    if (!settings.length) {
+      return (
+        <p>No settings saved</p>
+      );
+    }
+
+    return [
+      <h3 key="title">
+        Saved settings
+      </h3>,
+
+      <div key="settings">
+        { settings.map(setting => [
+          <p key={setting.name}>
+            <strong>{ setting.name }</strong>
+          </p>,
+
+          <pre key="setting-code">
+            <code>
+              { JSON.stringify(setting.value) }
+            </code>
+          </pre>,
+
+          <button
+            key="button-apply-setting"
+            className="button"
+            onClick={() => this.applySetting(setting)}
+            style={{ marginRight: 5 }}
+          >
+            Apply
+          </button>,
+
+          <button
+            key="button-remove-setting"
+            className="button button-outline"
+            onClick={() => this.removeSetting(setting)}
+          >
+            Remove
+          </button>,
+
+          <hr key="separator" />,
+        ])}
+      </div>,
+    ];
+  }
+}
+
 
 export default StoredSettings;

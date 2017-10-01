@@ -23,6 +23,10 @@ class App extends Component {
     });
   }
 
+  applySetting = (setting) => {
+    this.setState(setting);
+  }
+
   saveSetting = ({ formData }) => {
     const { name } = formData;
 
@@ -43,6 +47,7 @@ class App extends Component {
           <hr key="separator" />,
           <StoredSettings
             key="stored-setting"
+            applySetting={this.applySetting}
           />,
         ])}
 
