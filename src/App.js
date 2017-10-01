@@ -5,6 +5,7 @@ import Storage from './helpers/storage';
 import TeamsSettings from './screens/TeamsSettings';
 import PlayersNamer from './screens/PlayersNamer';
 import TeamsCompleted from './screens/TeamsCompleted';
+import StoredSettings from './misc/StoredSettings';
 import StoreSettingForm from './misc/StoreSettingForm';
 
 class App extends Component {
@@ -33,12 +34,17 @@ class App extends Component {
 
     return (
       <div className="App">
-        { screenStep === 1 && (
+        { screenStep === 1 && ([
           <TeamsSettings
+            key="teams-settings"
             formData={this.state}
             onSubmit={this.onFormSubmit}
-          />
-        )}
+          />,
+          <hr key="separator" />,
+          <StoredSettings
+            key="stored-setting"
+          />,
+        ])}
 
         { screenStep === 2 && (
           <PlayersNamer
