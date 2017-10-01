@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-filename-extension */
 
 import React, { Component } from 'react';
+import Storage from './helpers/storage';
 import TeamsSettings from './screens/TeamsSettings';
 import PlayersNamer from './screens/PlayersNamer';
 import TeamsCompleted from './screens/TeamsCompleted';
+import StoreSettingForm from './misc/StoreSettingForm';
 
 class App extends Component {
   state = {
@@ -18,6 +20,12 @@ class App extends Component {
       ...formData,
       screenStep: screenStep + 1,
     });
+  }
+
+  saveSetting = ({ formData }) => {
+    const { name } = formData;
+
+    Storage.set(name, this.state);
   }
 
   render() {
@@ -39,12 +47,18 @@ class App extends Component {
           />
         )}
 
-        { screenStep === 3 && (
+        { screenStep === 3 && ([
           <TeamsCompleted
+            key="teams-completed"
             user_by_team={this.state.user_by_team}
             users={this.state.users}
-          />
-        )}
+          />,
+          <hr key="separator" />,
+          <StoreSettingForm
+            key="store-setting-form"
+            onSubmit={this.saveSetting}
+          />,
+        ])}
       </div>
     );
   }
