@@ -22,13 +22,15 @@ class App extends Component {
   }
 
   applySetting = (setting) => {
-    this.setState(setting);
+    this.setState({
+      formData: setting,
+    });
   }
 
-  saveSetting = ({ formData }) => {
+  saveSetting = ({ formData }, state) => {
     const { name } = formData;
 
-    Storage.set(name, this.state);
+    Storage.set(name, state.formData);
   }
 
   render() {
@@ -57,7 +59,7 @@ class App extends Component {
           <hr key="separator" />,
           <StoreSettingForm
             key="store-setting-form"
-            onSubmit={this.saveSetting}
+            onSubmit={data => this.saveSetting(data, this.state)}
           />,
         ])}
       </div>

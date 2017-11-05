@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Storage from '../helpers/storage';
-import { TEAMS_STEP } from '../helpers/steps';
 
 class StoredSettings extends Component {
   static propTypes = {
@@ -24,8 +23,6 @@ class StoredSettings extends Component {
   applySetting = (setting) => {
     const { applySetting } = this.props;
     const { value } = setting;
-
-    value.step = TEAMS_STEP;
 
     applySetting(value);
   }
