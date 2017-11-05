@@ -3,14 +3,13 @@
 import React, { Component } from 'react';
 import Storage from './helpers/storage';
 import TeamsSettings from './screens/TeamsSettings';
-import PlayersNamer from './screens/PlayersNamer';
 import TeamsCompleted from './screens/TeamsCompleted';
 import StoredSettings from './misc/StoredSettings';
 import StoreSettingForm from './misc/StoreSettingForm';
 
 class App extends Component {
   state = {
-    users: [],
+    formData: {},
     screenStep: 1,
   }
 
@@ -18,7 +17,7 @@ class App extends Component {
     const { screenStep } = this.state;
 
     this.setState({
-      ...formData,
+      formData,
       screenStep: screenStep + 1,
     });
   }
@@ -41,7 +40,7 @@ class App extends Component {
         { screenStep === 1 && ([
           <TeamsSettings
             key="teams-settings"
-            formData={this.state}
+            formData={this.state.formData}
             onSubmit={this.onFormSubmit}
           />,
           <hr key="separator" />,
@@ -51,18 +50,10 @@ class App extends Component {
           />,
         ])}
 
-        { screenStep === 2 && (
-          <PlayersNamer
-            formData={this.state}
-            onSubmit={this.onFormSubmit}
-          />
-        )}
-
-        { screenStep === 3 && ([
+        { screenStep === 2 && ([
           <TeamsCompleted
             key="teams-completed"
-            user_by_team={this.state.user_by_team}
-            users={this.state.users}
+            formData={this.state.formData}
           />,
           <hr key="separator" />,
           <StoreSettingForm

@@ -24,10 +24,12 @@ class StoredSettings extends Component {
     const { applySetting } = this.props;
     const { value } = setting;
 
+    value.screenStep = 2;
+
     applySetting(value);
   }
 
-  removeSetting = ({ name }) => { // eslint-disable-line
+  removeSetting = ({ name }) => {
     const { settings } = this.state;
     const filteredSettings = settings.filter(setting => setting.name !== name);
 

@@ -1,30 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Form from 'react-jsonschema-form';
-
-const schema = {
-  type: 'object',
-  required: ['user_by_team', 'total_users'],
-  properties: {
-    total_users: {
-      type: 'integer',
-      title: 'Total users',
-    },
-    user_by_team: {
-      type: 'integer',
-      title: 'Users by team',
-    },
-  },
-};
-
-const uiSchema = {
-  total_users: {
-    'ui:widget': 'updown',
-  },
-  user_by_team: {
-    'ui:widget': 'updown',
-  },
-};
+import { schema, uiSchema } from '../helpers/schemas';
 
 const TeamsSettings = ({ formData, onSubmit }) => [
   <h3 key="heading">
@@ -37,9 +14,10 @@ const TeamsSettings = ({ formData, onSubmit }) => [
     schema={schema}
     uiSchema={uiSchema}
     onSubmit={onSubmit}
+    showErrorList={false}
   >
-    <button type="submit">
-      Next
+    <button className="button-outline" type="submit">
+      Generate
     </button>
   </Form>,
 ];
