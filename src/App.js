@@ -6,19 +6,18 @@ import TeamsSettings from './screens/TeamsSettings';
 import TeamsCompleted from './screens/TeamsCompleted';
 import StoredSettings from './misc/StoredSettings';
 import StoreSettingForm from './misc/StoreSettingForm';
+import { SETTINGS_STEP, TEAMS_STEP } from './helpers/steps';
 
 class App extends Component {
   state = {
     formData: {},
-    screenStep: 1,
+    step: SETTINGS_STEP,
   }
 
   onFormSubmit = ({ formData }) => {
-    const { screenStep } = this.state;
-
     this.setState({
       formData,
-      screenStep: screenStep + 1,
+      step: TEAMS_STEP,
     });
   }
 
@@ -33,11 +32,11 @@ class App extends Component {
   }
 
   render() {
-    const { screenStep } = this.state;
+    const { step } = this.state;
 
     return (
       <div className="App">
-        { screenStep === 1 && ([
+        { step === SETTINGS_STEP && ([
           <TeamsSettings
             key="teams-settings"
             formData={this.state.formData}
@@ -50,7 +49,7 @@ class App extends Component {
           />,
         ])}
 
-        { screenStep === 2 && ([
+        { step === TEAMS_STEP && ([
           <TeamsCompleted
             key="teams-completed"
             formData={this.state.formData}
